@@ -46,9 +46,13 @@
                     <!-- 질문 댓글 Start -->
                     {% if question.comment_set.count > 0 %}
                     <div class="mt-3">
+
                     {% for comment in question.comment_set.all %}
                         <a name="comment_{{ comment.id }}"></a>
                         <div class="comment py-2 text-muted">
+                            <span class="popup-ajax text-danger" data-toggle="popover" data-placement="right"  style="cursor:pointer;">
+            +{{comment.voter.count}}
+        </span>
                             <span style="white-space: pre-line;">{{ comment.content }}</span>
                             <span>
                                 - {{ comment.author }}, {{ comment.create_date }}
@@ -56,6 +60,7 @@
                                 (수정 +{{ comment.modify_count }} : {{ comment.modify_date }})
                                 {% endif %}
                             </span>
+                            <a class="recommend small" data-uri="{% url 'pybo:vote_comment_question' comment.id  %}" href="javascript:void(0);">추천</a>
                             {% if request.user == comment.author %}
                             <a href="{% url 'pybo:comment_modify_question' comment.id  %}" class="small">수정</a>,
                             <a href="#" class="small delete"
@@ -113,6 +118,9 @@
                     {% for comment in answer.comment_set.all %}
                         <a name="comment_{{ comment.id }}"></a>
                         <div class="comment py-2 text-muted">
+                            <span class="popup-ajax text-danger" data-toggle="popover" data-placement="right"  style="cursor:pointer;">
+            +{{comment.voter.count}}
+        </span>
                             <span style="white-space: pre-line;">{{ comment.content }}</span>
                             <span>
                                 - {{ comment.author }}, {{ comment.create_date }}
@@ -120,6 +128,7 @@
                                 (수정 +{{ comment.modify_count }} : {{ comment.modify_date }})
                                 {% endif %}
                             </span>
+                            <a class="recommend small" data-uri="{% url 'pybo:vote_comment_answer' comment.id  %}" href="javascript:void(0);">추천</a>
                             {% if request.user == comment.author %}
                             <a href="{% url 'pybo:comment_modify_answer' comment.id  %}" class="small">수정</a>,
                             <a href="#" class="small delete"

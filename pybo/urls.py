@@ -22,6 +22,8 @@ urlpatterns = [
     # vote_views.py
     path('vote/question/<int:question_id>/', vote_views.vote_question, name='vote_question'),
     path('vote/answer/<int:answer_id>/', vote_views.vote_answer, name='vote_answer'),
+    path('vote/comment/answer/<int:comment_id>/', vote_views.vote_comment_answer, name='vote_comment_answer'),
+    path('vote/comment/question/<int:comment_id>/', vote_views.vote_comment_question, name='vote_comment_question'),
 
     # comment_question_views.py
     path('comment/create/question/<int:question_id>/', comment_question_view.comment_create_question, name='comment_create_question'),
