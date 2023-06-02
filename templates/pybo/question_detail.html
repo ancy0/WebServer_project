@@ -25,7 +25,7 @@
                     <div class="d-flex justify-content-end">
                         {% if question.modify_date %}
                         <div class="badge badge-light p-2 text-left mx-3">
-                            <p>수정 횟수: {{ question.modify_count }}</p>
+                            <p>수정 횟수 : {{ question.modify_count }}</p>
                             <div class="mb-2">modified at</div>
                             <div>{{ question.modify_date }}</div>
                         </div>
@@ -53,7 +53,7 @@
                             <span>
                                 - {{ comment.author }}, {{ comment.create_date }}
                                 {% if comment.modify_date %}
-                                (수정:{{ comment.modify_date }})
+                                (수정 +{{ comment.modify_count }} : {{ comment.modify_date }})
                                 {% endif %}
                             </span>
                             {% if request.user == comment.author %}
@@ -90,7 +90,7 @@
                     <div class="d-flex justify-content-end">
                         {% if answer.modify_date %}
                         <div class="badge badge-light p-2 text-left mx-3">
-                            <p>수정 횟수: {{ answer.modify_count }}</p>
+                            <p>수정 횟수 : {{ answer.modify_count }}</p>
                             <div class="mb-2">modified at</div>
                             <div>{{ answer.modify_date }}</div>
                         </div>
@@ -117,7 +117,7 @@
                             <span>
                                 - {{ comment.author }}, {{ comment.create_date }}
                                 {% if comment.modify_date %}
-                                (수정:{{ comment.modify_date }})
+                                (수정 +{{ comment.modify_count }} : {{ comment.modify_date }})
                                 {% endif %}
                             </span>
                             {% if request.user == comment.author %}
