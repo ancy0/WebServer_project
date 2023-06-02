@@ -25,6 +25,7 @@
                     <div class="d-flex justify-content-end">
                         {% if question.modify_date %}
                         <div class="badge badge-light p-2 text-left mx-3">
+                            <p>수정 횟수: {{ question.modify_count }}</p>
                             <div class="mb-2">modified at</div>
                             <div>{{ question.modify_date }}</div>
                         </div>
@@ -89,6 +90,7 @@
                     <div class="d-flex justify-content-end">
                         {% if answer.modify_date %}
                         <div class="badge badge-light p-2 text-left mx-3">
+                            <p>수정 횟수: {{ answer.modify_count }}</p>
                             <div class="mb-2">modified at</div>
                             <div>{{ answer.modify_date }}</div>
                         </div>
