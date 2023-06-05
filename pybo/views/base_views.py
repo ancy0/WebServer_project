@@ -2,7 +2,7 @@ from django.core.paginator import Paginator
 from django.db.models import Q, Count
 from django.shortcuts import render, get_object_or_404
 
-from ..models import Question
+from ..models import Question, Comment
 
 
 def index(request):
@@ -44,5 +44,21 @@ def detail(request, question_id):
     pybo 내용 출력
     """
     question = get_object_or_404(Question, pk=question_id)
-    context = {'question': question}
+    sort = request.GET.get('sort', 'new')  # 정렬기준
+    print(f"Current sort order: {sort}")  # add this line
+
+    if sort == 'new':
+        comments = Comment.objects.filter(question=question_id).order_by('-create_date')
+    elif sort == 'old':
+        comments = Comment.objects.filter(question=question_id).order_by('create_date')
+    elif sort == 'popular':
+        # This assumes you have a field `votes` in your Comment model
+        comments = Comment.objects.filter(question=question_id).order_by('-voter')
+
+    page = request.GET.get('comment_page', '1')  # 페이지
+    paginator = Paginator(comments, 8)  # 페이지당 10개씩 보여주기
+    page_count = len(paginator.page_range)
+    comment_list = paginator.get_page(page)
+
+    context = {'question': question, 'comment_list': comment_list,'page_count':page_count, 'sort': sort}
     return render(request, 'pybo/question_detail.html', context)
