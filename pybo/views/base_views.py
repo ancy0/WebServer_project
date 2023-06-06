@@ -40,26 +40,14 @@ def index(request):
 
 
 def detail(request, question_id):
-    """
-    pybo 내용 출력
-    """
 
     question = get_object_or_404(Question, pk=question_id)
 
-    sort = request.GET.get('sort', 'recent')  # 정렬 기준
-
-    if sort == 'old':
-        comments = Comment.objects.filter(question=question_id).order_by('create_date')
-    elif sort == 'popular':
-        comments = Comment.objects.filter(question=question_id).order_by('-voter', '-create_date')
-    else:
-        comments = Comment.objects.filter(question=question_id).order_by('-create_date')
 
     page = request.GET.get('page', '1')  # 페이지
     paginator = Paginator(comments, 8)  # 페이지당 8개씩 보여주기
     comment_list = paginator.get_page(page)
     page_count = len(paginator.page_range) # 댓글 페이지 총 개수
-
 
     context = {'question': question, 'comment_list': comment_list,'page':page,'page_count':page_count, 'sort': sort}
     return render(request, 'pybo/question_detail.html', context)
