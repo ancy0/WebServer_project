@@ -43,7 +43,16 @@ def detail(request, question_id):
 
     question = get_object_or_404(Question, pk=question_id)
 
+    sort = request.GET.get('sort', 'recent')  # 정렬 기준
 
+    if sort == 'old':
+        comments = Comment.objects.filter(question=question_id).order_by('create_date')
+    elif sort == 'popular':
+        comments = Comment.objects.filter(question=question_id).annotate(num_voter=Count('voter')).order_by(
+            '-num_voter')
+    else:
+        comments = Comment.objects.filter(question=question_id).order_by('-create_date')
+        
     page = request.GET.get('page', '1')  # 페이지
     paginator = Paginator(comments, 8)  # 페이지당 8개씩 보여주기
     comment_list = paginator.get_page(page)
